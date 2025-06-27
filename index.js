@@ -84,20 +84,28 @@ app.post('/chat', async (req, res) => {
   ];
 
   try {
-    const completion = await openai.createChatCompletion({
-      model: 'gpt-4o',
-      messages: fullMessages,
-      temperature: 0.7,
-    });
+  const completion = await openai.createChatCompletion({
+    model: 'gpt-4o',
+    messages: fullMessages,
+    temperature: 0.7,
+  });
 
-    const reply = completion.data.choices[0].message.content;
-    res.json({ reply });
-  } catch (err) {
-    console.error('OpenAI error:', err.response?.data || err.message || err);
+  let reply = completion.data.choices[0].message.content;
 
-    res.status(500).json({ error: 'GPT failed to respond' });
-  }
-});
+  // 🧼 Clean fluff from the GPT response
+  reply = reply
+    .replace(/^Great! Generating your policy now…\s*/i, '')
+    .replace(/Your personalized AI Use Policy is ready!.*$/is, '')
+    .trim();
+
+  res.json({ reply });
+
+} catch (err) {
+  console.error('OpenAI error:', err.response?.data || err.message || err);
+  res.status(500).json({ error: 'GPT failed to respond' });
+}
+
+;
 
 // Root route
 app.get('/', (req, res) => {
