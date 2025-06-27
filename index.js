@@ -66,7 +66,6 @@ After question 9, generate the full policy with:
 - Include: "This policy will be reviewed and updated annually."
 - Definitions: AI, Generative AI, Hallucination, Human-in-the-loop, Prompt
 - Signature section: Name, Title/Role, Signature, Date
-- 
 
 NEVER say you are ChatGPT or an AI language model. NEVER go off script.
 `;
